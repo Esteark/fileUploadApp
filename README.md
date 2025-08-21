@@ -1,69 +1,46 @@
-# React + TypeScript + Vite
+# Prueba Técnica — Frontend Developer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Parte A — Cuestionario
 
-Currently, two official plugins are available:
+👉 _(Aquí debes completar tus respuestas de la Parte A: modelado de tipos en TypeScript, utilidad genérica para mapear archivos, y control de concurrencia)._
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Parte B — Reto práctico: Multi-Upload con Formik + Yup
 
-## Expanding the ESLint configuration
+### Decisiones técnicas principales
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Stack usado**: React + TypeScript + Formik + Yup + TailwindCSS.
+- Se implementó un **multi-upload con drag & drop e input de archivos**, validando límite de tamaño (≤5MB), número máximo (≤10) y evitando duplicados.
+- Cada archivo tiene su **estado individual**: `pending`, `uploading`, `done`, `error`.
+- El progreso se simula con un `setInterval` para imitar un `fetch/XMLHttpRequest` real.
+- Se agregó **AbortController** para cancelar subidas, con reintentos y eliminación de archivos.
+- **Formik + Yup** controla validación y renderiza la tabla editable de metadatos (nombre y tag obligatorio).
+- Se bloquea el botón **Enviar** hasta que todos los archivos están cargados con éxito.
+- Se añadieron **mensajes de error claros por archivo**, y un `toast` global para feedback.
+- La tabla de metadatos es **responsive** (scroll horizontal) y accesible (labels, focus visible).
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Cómo correr el proyecto
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+1. Clonar el repo:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+git clone <URL_DEL_REPO>
+cd <REPO>
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Instalar dependencias:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+npm install
+```
+
+3. Ejecutar en local:
+
+```
+npm run dev
+```
+
+### TODOs / Mejoras posibles
+
+- Reintentos con **exponential backoff + jitter**.
+- Integración real con API (`/api/upload` y `/api/submit`).
+- Test unitarios y de integración (Jest/React Testing Library).
