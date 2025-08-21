@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { FiUploadCloud } from "react-icons/fi";
 import { GrDocumentDownload } from "react-icons/gr";
 import { FileUploadContext } from "../../AppContext/FileUploadContext";

@@ -118,6 +118,7 @@ export const FileUploadProvider = ({
     removeFile,
     allUploadsComplete,
     clearFiles,
+    enterEventCount,
   };
 
   return (
