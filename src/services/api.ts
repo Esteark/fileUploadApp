@@ -1,4 +1,5 @@
 import axios from "axios";
+import type { FilePayload } from "../components/types";
 
 /*importo la variable de entorno correspondiente si esto en local inportará .env  si esto en devploy importará .env.production*/
 const api = axios.create({
@@ -33,7 +34,9 @@ api.interceptors.response.use(
 );
 
 // 🔹 Funciones auxiliares
-export const postFiles = (files: any[]) => api.post("/files", files);
+export const postFile = (file: FilePayload) => {
+  return api.post("/files", file);
+};
 export const getFiles = () => api.get("/files");
 
 export default api;

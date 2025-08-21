@@ -7,3 +7,13 @@ export interface UploadFile {
   abortController?: AbortController; // cancelar subida
   status?: "pending" | "uploading" | "completed" | "error" | "cancelled";
 }
+
+export interface FilePayload {
+  id: string;
+  name: string;
+  type: string;
+  size: string;
+  createdAt: string;
+  createdBy: string;
+  tag: string;
+}

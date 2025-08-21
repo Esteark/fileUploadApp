@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import toast from "react-hot-toast";
 import type { UploadFile } from "../types";
 import { FileUploadContext } from "../../AppContext/FileUploadContext";
-import { postFiles } from "../../services/api"; // 👈 importa la función
+import { postFile } from "../../services/api";
 
 interface Props {
   uploadedFiles: UploadFile[];
@@ -60,19 +60,20 @@ export default function FileTable({ uploadedFiles, formikRef }: Props) {
 
         console.log("📦 Datos listos para enviar:", cleanFiles);
 
-        // 👇 Resetear formulario y archivos
         try {
-          await postFiles(cleanFiles); // 👈 llamada modular
-          toast.success("✅ Archivos enviados correctamente");
+          for (const file of cleanFiles) {
+            await postFile({
+              ...file,
+              id: crypto.randomUUID(), // 👈 se genera un id único por archivo
+            });
+          }
 
+          toast.success("✅ Archivos enviados correctamente");
           resetForm();
           appContext?.clearFiles();
         } catch (error) {
           toast.error("❌ Hubo un error al enviar los archivos");
         }
-
-        resetForm();
-        appContext?.clearFiles();
       }}
     >
       {({ values, isValid }) => {
